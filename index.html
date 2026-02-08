@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Where Technology Fails</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+      max-width: 900px;
+    }
+    h1, h2 {
+      color: #1f4fd8;
+    }
+    img {
+      max-width: 100%;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Where Technology Fails</h1>
+<h2>An Accessibility Analysis of Real-World Websites</h2>
+
+<p><strong>Team:</strong> Data4Lyf</p>
+<p><strong>Datathon:</strong> DubsTech Datathon 2026</p>
+
+<hr>
+
+<h2>Problem</h2>
+<p>
+Many websites unintentionally block people with disabilities.
+These barriers are invisible to designers but very real for users
+who rely on screen readers, keyboard navigation, or have low vision.
+</p>
+
+<h2>Dataset</h2>
+<ul>
+  <li>3,524 accessibility violations</li>
+  <li>~591 unique web pages</li>
+  <li>Domains: News, Government, Health, Education, Technology, E-commerce</li>
+</ul>
+
+<h2>Key Findings</h2>
+<ul>
+  <li>News & Media sites have the highest number of accessibility violations</li>
+  <li>A small set of issues (contrast, landmarks, link text) cause most problems</li>
+  <li>Severity matters more than raw counts</li>
+</ul>
+
+<h2>Risk Score</h2>
+<p>
+We introduced a severity-weighted Risk Score to prioritize pages
+that cause the greatest harm to users.
+</p>
+
+<ul>
+  <li>5 × Critical</li>
+  <li>4 × Serious</li>
+  <li>3 × Moderate</li>
+  <li>2 × Minor</li>
+</ul>
+
+<h2>Recommendations</h2>
+<ul>
+  <li>Fix color contrast using WCAG standards</li>
+  <li>Add semantic landmarks for navigation</li>
+  <li>Ensure meaningful link text and alt text</li>
+  <li>Validate HTML structure and heading hierarchy</li>
+</ul>
+
+<h2>Conclusion</h2>
+<p>
+Accessibility failures are not random. They follow patterns, affect
+real people, and can be fixed with data-driven prioritization.
+</p>
+
+</body>
+</html>
