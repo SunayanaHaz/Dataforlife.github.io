@@ -1,206 +1,744 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Where Technology Fails | Data4Lyf</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Where Technology Fails | Data4Lyf</title>
 
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Space+Mono&family=Work+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<style>
-body{
-  margin:0;
-  font-family:'Work Sans',sans-serif;
-  background:#0b1020;
-  color:#f6f7fb;
-  line-height:1.6;
-}
-a{color:#51C4D3;text-decoration:none}
-a:hover{text-decoration:underline}
-.wrap{max-width:1100px;margin:auto;padding:60px 20px}
-h1{
-  font-family:'DM Serif Display',serif;
-  font-size:4rem;
-  margin-bottom:10px;
-}
-.subtitle{color:rgba(246,247,251,.75);font-size:1.2rem;max-width:900px}
-.hero-why{
-  margin:12px 0;
-  font-size:1.1rem;
-  color:rgba(246,247,251,.9);
-}
-.stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:16px;
-  margin-top:30px;
-}
-.stat{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(120,160,255,.2);
-  border-radius:18px;
-  padding:18px;
-  text-align:center;
-}
-.stat .num{font-size:2rem;font-family:'DM Serif Display'}
-.stat .lab{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(246,247,251,.7)}
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#0f1731;
+      --card:#101b3a;
+      --text:#f6f7fb;
+      --muted:rgba(246,247,251,.75);
+      --border:rgba(120,160,255,.18);
+      --accent:#51C4D3;
+      --accent2:#E8B4B8;
+      --shadow:0 18px 55px rgba(0,0,0,.35);
+      --radius:18px;
+      --max:1100px;
+    }
 
-section{padding:80px 0}
-h2{
-  font-family:'DM Serif Display';
-  font-size:2.5rem;
-  margin-bottom:12px;
-}
-.card{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(120,160,255,.2);
-  border-radius:18px;
-  padding:24px;
-  margin-top:20px;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-  gap:20px;
-}
-img{
-  width:100%;
-  border-radius:14px;
-  border:1px solid rgba(120,160,255,.25);
-  margin-top:12px;
-}
-.caption{
-  font-size:.8rem;
-  color:rgba(246,247,251,.6);
-  margin-top:6px;
-}
-.tldr{
-  margin-top:30px;
-  padding:20px;
-  border-radius:18px;
-  border:1px solid rgba(81,196,211,.4);
-  background:rgba(81,196,211,.1);
-}
-.tldr-title{
-  font-family:'Space Mono';
-  text-transform:uppercase;
-  letter-spacing:.2em;
-  font-size:.8rem;
-  margin-bottom:10px;
-}
-.kpis{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:16px;
-}
-.kpi{
-  background:rgba(255,255,255,.05);
-  border-radius:18px;
-  padding:18px;
-}
-.kpi .big{font-size:2rem;font-family:'DM Serif Display'}
-.kpi .small{text-transform:uppercase;font-size:.75rem;color:rgba(246,247,251,.7)}
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Work Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: radial-gradient(1000px 600px at 20% 10%, rgba(81,196,211,.18), transparent 60%),
+                  radial-gradient(900px 500px at 85% 25%, rgba(232,180,184,.14), transparent 60%),
+                  linear-gradient(180deg, #070a14 0%, var(--bg) 35%, #070a14 100%);
+      line-height:1.65;
+      overflow-x:hidden;
+    }
 
-.cta{
-  text-align:center;
-  padding:40px;
-  background:linear-gradient(135deg,#51C4D3,#E8B4B8);
-  color:#0b1020;
-  border-radius:24px;
-}
-.cta a{
-  display:inline-block;
-  margin-top:16px;
-  padding:14px 24px;
-  background:#0b1020;
-  color:#fff;
-  border-radius:999px;
-  font-family:'Space Mono';
-}
-footer{
-  text-align:center;
-  padding:40px 20px;
-  font-size:.85rem;
-  color:rgba(246,247,251,.6);
-}
-</style>
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Top nav */
+    nav{
+      position:fixed;
+      top:0; left:0; right:0;
+      z-index:999;
+      background:rgba(10,15,30,.68);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(120,160,255,.14);
+      transform:translateY(-120%);
+      transition:transform .28s ease;
+    }
+    nav.visible{transform:translateY(0)}
+    .nav-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+    }
+    .brand{
+      font-family:'Space Mono', monospace;
+      font-weight:700;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-size:.92rem;
+      color:var(--accent);
+      white-space:nowrap;
+    }
+    .links{
+      display:flex;
+      gap:18px;
+      list-style:none;
+      margin:0; padding:0;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .links a{
+      font-family:'Space Mono', monospace;
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:rgba(246,247,251,.92);
+      opacity:.9;
+    }
+    .links a:hover{color:var(--accent); opacity:1}
+    @media (max-width:760px){ .links{display:none} }
+
+    /* Layout helpers */
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 18px;}
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 14px;
+      border:1px solid rgba(81,196,211,.35);
+      border-radius:999px;
+      font-family:'Space Mono', monospace;
+      font-size:.78rem;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:rgba(246,247,251,.92);
+      background:rgba(10,15,30,.35);
+      box-shadow:0 0 0 1px rgba(232,180,184,.08) inset;
+    }
+    .pill b{color:var(--accent)}
+    .btns{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
+    .btn{
+      display:inline-block;
+      padding:12px 16px;
+      border-radius:999px;
+      font-family:'Space Mono', monospace;
+      font-size:.86rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      border:1px solid rgba(120,160,255,.18);
+      background:rgba(255,255,255,.04);
+      color:rgba(246,247,251,.95);
+      transition:transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .btn:hover{transform:translateY(-2px); background:rgba(255,255,255,.07); border-color:rgba(81,196,211,.45)}
+    .btn.primary{
+      background:linear-gradient(135deg, rgba(81,196,211,.95), rgba(232,180,184,.85));
+      border-color:transparent;
+      color:#0b1020;
+      font-weight:700;
+    }
+
+    /* Hero */
+    header{
+      min-height:96vh;
+      display:flex;
+      align-items:center;
+      position:relative;
+      padding-top:40px;
+      overflow:hidden;
+    }
+    header:before{
+      content:"";
+      position:absolute;
+      inset:-40px -40px -40px -40px;
+      background:
+        radial-gradient(circle at 20% 35%, rgba(81,196,211,.18) 0%, transparent 55%),
+        radial-gradient(circle at 75% 25%, rgba(232,180,184,.15) 0%, transparent 58%),
+        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(81,196,211,.03) 3px, rgba(81,196,211,.03) 6px);
+      opacity:.9;
+      animation:floatBG 18s ease-in-out infinite;
+    }
+    @keyframes floatBG{
+      0%,100%{transform:translateY(-1.5%)}
+      50%{transform:translateY(1.5%)}
+    }
+    .hero{
+      position:relative;
+      z-index:2;
+      padding:70px 0 50px;
+      text-align:left;
+    }
+    h1{
+      font-family:'DM Serif Display', serif;
+      font-size:clamp(2.6rem, 6vw, 5.2rem);
+      font-style:italic;
+      font-weight:400;
+      line-height:1.05;
+      margin:18px 0 10px;
+      letter-spacing:-.02em;
+      background:linear-gradient(135deg, #ffffff 0%, var(--accent) 55%, var(--accent2) 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .subtitle{
+      max-width:900px;
+      font-size:clamp(1.02rem, 2.3vw, 1.35rem);
+      color:var(--muted);
+      margin:0;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:14px;
+      margin-top:26px;
+    }
+    .stat{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(120,160,255,.18);
+      border-radius:var(--radius);
+      padding:16px 16px;
+      box-shadow:0 0 0 1px rgba(81,196,211,.08) inset;
+      transition:transform .18s ease, border-color .18s ease;
+    }
+    .stat:hover{transform:translateY(-3px); border-color:rgba(81,196,211,.45)}
+    .stat .num{
+      font-family:'DM Serif Display', serif;
+      font-size:2.15rem;
+      line-height:1;
+    }
+    .stat .lab{
+      margin-top:6px;
+      font-family:'Space Mono', monospace;
+      font-size:.75rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(246,247,251,.78);
+    }
+    @media (max-width:900px){ .stats{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:520px){ .stats{grid-template-columns:1fr} }
+
+    /* Sections */
+    section{padding:72px 0; position:relative;}
+    .section-head{
+      text-align:center;
+      max-width:820px;
+      margin:0 auto 22px;
+    }
+    .kicker{
+      font-family:'Space Mono', monospace;
+      color:rgba(81,196,211,.95);
+      text-transform:uppercase;
+      letter-spacing:.26em;
+      font-size:.78rem;
+      display:inline-block;
+      padding-bottom:10px;
+      position:relative;
+    }
+    .kicker:after{
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom:0;
+      transform:translateX(-50%);
+      width:64px;
+      height:2px;
+      background:rgba(81,196,211,.75);
+      border-radius:2px;
+    }
+    h2{
+      font-family:'DM Serif Display', serif;
+      font-style:italic;
+      font-weight:400;
+      font-size:clamp(2rem, 4.4vw, 3.2rem);
+      margin:14px 0 8px;
+      color:rgba(246,247,251,.98);
+    }
+    .lead{color:var(--muted); margin:0 auto; font-size:1.06rem;}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12, 1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    .card{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(120,160,255,.18);
+      border-radius:var(--radius);
+      padding:18px 18px;
+      box-shadow:var(--shadow);
+    }
+    .card h3{
+      margin:0 0 6px;
+      font-family:'Space Mono', monospace;
+      font-size:.9rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:rgba(246,247,251,.92);
+    }
+    .card p{margin:0; color:var(--muted)}
+    .col-6{grid-column:span 6;}
+    .col-7{grid-column:span 7;}
+    .col-5{grid-column:span 5;}
+    .col-4{grid-column:span 4;}
+    .col-12{grid-column:span 12;}
+    @media (max-width:900px){
+      .col-6,.col-7,.col-5,.col-4{grid-column:span 12;}
+    }
+
+    /* Viz cards */
+    .viz{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(120,160,255,.18);
+      border-radius:var(--radius);
+      padding:16px;
+    }
+    .viz img{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(120,160,255,.18);
+      background:rgba(0,0,0,.15);
+      display:block;
+    }
+    .cap{
+      margin-top:8px;
+      color:rgba(246,247,251,.72);
+      font-family:'Space Mono', monospace;
+      font-size:.78rem;
+      letter-spacing:.06em;
+    }
+
+    /* KPI pills */
+    .kpis{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:12px;
+      margin-top:14px;
+    }
+    .kpi{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(120,160,255,.18);
+      border-radius:16px;
+      padding:14px;
+    }
+    .kpi .big{
+      font-family:'DM Serif Display', serif;
+      font-size:2rem;
+      line-height:1;
+    }
+    .kpi .small{
+      margin-top:6px;
+      color:rgba(246,247,251,.72);
+      font-family:'Space Mono', monospace;
+      font-size:.72rem;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+    @media (max-width:900px){ .kpis{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:520px){ .kpis{grid-template-columns:1fr} }
+
+    /* Table */
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border:1px solid rgba(120,160,255,.18);
+      border-radius:16px;
+      background:rgba(0,0,0,.18);
+    }
+    th, td{
+      padding:12px 12px;
+      border-bottom:1px solid rgba(120,160,255,.12);
+      text-align:left;
+      vertical-align:top;
+      color:rgba(246,247,251,.86);
+      font-size:.98rem;
+    }
+    th{
+      background:rgba(255,255,255,.05);
+      font-family:'Space Mono', monospace;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:.78rem;
+      color:rgba(246,247,251,.78);
+    }
+    tr:last-child td{border-bottom:none}
+
+    /* CTA */
+    .cta{
+      background:linear-gradient(135deg, rgba(81,196,211,.95), rgba(232,180,184,.85));
+      color:#0b1020;
+      border-radius:22px;
+      padding:28px 22px;
+      text-align:center;
+      border:1px solid rgba(255,255,255,.2);
+    }
+    .cta h2{color:#0b1020}
+    .cta p{color:rgba(11,16,32,.85); max-width:820px; margin:0 auto;}
+    .cta .btn{border-color:rgba(11,16,32,.25); color:#0b1020; background:rgba(255,255,255,.5)}
+    .cta .btn.primary{background:#0b1020; color:#fff}
+
+    /* Fade-in */
+    .fade{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+    .fade.visible{opacity:1; transform:translateY(0);}
+
+    footer{
+      padding:40px 0 60px;
+      color:rgba(246,247,251,.6);
+      text-align:center;
+      font-family:'Space Mono', monospace;
+      font-size:.82rem;
+      letter-spacing:.06em;
+    }
+  </style>
 </head>
 
 <body>
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <div class="brand">DATA4LYF</div>
+      <ul class="links">
+        <li><a href="#problem">Problem</a></li>
+        <li><a href="#findings">Findings</a></li>
+        <li><a href="#risk">Risk Score</a></li>
+        <li><a href="#clusters">Clustering</a></li>
+        <li><a href="#fixes">Fixes</a></li>
+        <li><a href="#links">Links</a></li>
+      </ul>
+    </div>
+  </nav>
 
-<div class="wrap">
-  <h1>Where Technology Fails</h1>
-  <p class="hero-why">Accessibility failures aren’t edge cases — they systematically exclude millions of users.</p>
-  <p class="subtitle">A real-world accessibility analysis using the AccessGuru dataset</p>
+  <!-- HERO -->
+  <header>
+    <div class="wrap hero">
+      <span class="pill"><b>Data4Lyf</b> · DubsTech Datathon 2026 · Technology Track</span>
+      <h1>Where Technology Fails</h1>
+      <p class="subtitle">
+        A real-world accessibility analysis showing <b>where digital systems exclude users</b>,
+        which failures repeat, and which fixes prevent the most harm.
+      </p>
 
-  <div class="stats">
-    <div class="stat"><div class="num">3,524</div><div class="lab">Violations</div></div>
-    <div class="stat"><div class="num">~590</div><div class="lab">Pages</div></div>
-    <div class="stat"><div class="num">6</div><div class="lab">Domains</div></div>
-    <div class="stat"><div class="num">~80%</div><div class="lab">Preventable</div></div>
+      <div class="stats">
+        <div class="stat">
+          <div class="num">3,524</div>
+          <div class="lab">Violations</div>
+        </div>
+        <div class="stat">
+          <div class="num">~590</div>
+          <div class="lab">Unique pages</div>
+        </div>
+        <div class="stat">
+          <div class="num">6</div>
+          <div class="lab">Domains</div>
+        </div>
+        <div class="stat">
+          <div class="num">~80%</div>
+          <div class="lab">Preventable (best-case)</div>
+        </div>
+      </div>
+
+      <div class="btns">
+        <a class="btn primary" href="#findings">See the findings</a>
+        <a class="btn" href="#fixes">See the fixes</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROBLEM + DATASET -->
+  <section id="problem">
+    <div class="wrap">
+      <div class="section-head fade">
+        <span class="kicker">01 — The Challenge</span>
+        <h2>Technology isn’t neutral</h2>
+        <p class="lead">
+          Many websites unintentionally block people with disabilities. These barriers can be invisible to builders,
+          but very real for users who rely on screen readers, keyboard navigation, or who have low vision.
+        </p>
+      </div>
+
+      <div class="grid">
+        <div class="card col-6 fade">
+          <h3>What we studied</h3>
+          <p>
+            Using the AccessGuru dataset aligned with WCAG 2.1, we examined where accessibility failures occur,
+            which violations dominate, and which pages create the greatest user harm.
+          </p>
+        </div>
+        <div class="card col-6 fade">
+          <h3>How we worked</h3>
+          <p>
+            We standardized domain labels, filtered unsuccessful scrapes, aggregated by page and domain,
+            and used severity-weighted scoring to prioritize remediation where it matters most.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINDINGS + VISUALS -->
+  <section id="findings">
+    <div class="wrap">
+      <div class="section-head fade">
+        <span class="kicker">02 — Key Findings</span>
+        <h2>What we discovered</h2>
+        <p class="lead">
+          Accessibility failures are not random. They cluster by domain, repeat across sites, and concentrate harm on a smaller set of pages.
+        </p>
+      </div>
+
+      <div class="grid">
+        <div class="viz col-6 fade">
+          <img src="violations_by_domain.png" alt="Violations by domain" />
+          <div class="cap">
+            <b>Figure 1:</b> News & Media shows the highest violation volume, suggesting risk rises with content scale and publishing velocity.
+          </div>
+        </div>
+
+        <div class="viz col-6 fade">
+          <img src="top_violations.png" alt="Top violations" />
+          <div class="cap">
+            <b>Figure 2:</b> A small set of violations (contrast, landmarks, link names, duplicate IDs, headings) dominate—pointing to design-system and workflow gaps.
+          </div>
+        </div>
+
+        <div class="viz col-12 fade">
+          <img src="heatmap_domain_violation_category.png" alt="Heatmap Domain x Violation Category" />
+          <div class="cap">
+            <b>Figure 3:</b> Syntactic violations dominate overall; semantic violations are fewer but disproportionately impact screen reader users.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RISK SCORE -->
+  <section id="risk">
+    <div class="wrap">
+      <div class="section-head fade">
+        <span class="kicker">03 — Severity & Harm</span>
+        <h2>Risk Score: impact beats volume</h2>
+        <p class="lead">
+          Not all violations are equal. Some pages have fewer issues but more critical ones. We created a Risk Score to prioritize user harm.
+        </p>
+      </div>
+
+      <div class="grid">
+        <div class="card col-5 fade">
+          <h3>Risk Score formula</h3>
+          <p>
+            <b>5×</b> Critical · <b>4×</b> Serious · <b>3×</b> Moderate · <b>2×</b> Minor
+            <br><br>
+            Unlike raw counts, Risk Score helps focus remediation on the pages that block users most.
+          </p>
+        </div>
+        <div class="viz col-7 fade">
+          <img src="risk_score_ranking.png" alt="Risk score ranking" />
+          <div class="cap">
+            <b>Figure 4:</b> Severity-weighted ranking surfaces the pages causing the greatest harm—useful for triage and planning.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLUSTERING -->
+  <section id="clusters">
+    <div class="wrap">
+      <div class="section-head fade">
+        <span class="kicker">04 — Hidden Patterns</span>
+        <h2>Clustering reveals problem families</h2>
+        <p class="lead">
+          We clustered pages by violation patterns (KMeans, k=5; silhouette 0.334). Four clusters form meaningful “problem families”; one is low-violation outliers.
+        </p>
+      </div>
+
+      <div class="grid">
+        <div class="card col-6 fade">
+          <h3>Problem family 1</h3>
+          <p><b>Contrast-heavy pages</b> — dominated by color contrast violations (harmful for low-vision users).</p>
+        </div>
+        <div class="card col-6 fade">
+          <h3>Problem family 2</h3>
+          <p><b>Navigation confusion</b> — missing landmarks/regions, making screen reader navigation unreliable.</p>
+        </div>
+        <div class="card col-6 fade">
+          <h3>Problem family 3</h3>
+          <p><b>Structure-broken</b> — duplicate IDs and broken HTML cause assistive tech to misinterpret page structure.</p>
+        </div>
+        <div class="card col-6 fade">
+          <h3>Problem family 4</h3>
+          <p><b>Heading disorder</b> — incorrect heading hierarchy prevents users from skimming content.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HUMAN IMPACT -->
+  <section id="impact">
+    <div class="wrap">
+      <div class="section-head fade">
+        <span class="kicker">05 — Human Impact</span>
+        <h2>Who gets excluded?</h2>
+        <p class="lead">These failures aren’t just technical—they block real people from using digital services.</p>
+      </div>
+
+      <div class="grid">
+        <div class="card col-12 fade">
+          <h3>Examples of harm</h3>
+          <table>
+            <thead>
+              <tr><th>Violation</th><th>Who it harms</th><th>Why it matters</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Color contrast</td><td>Low-vision users</td><td>Text becomes unreadable</td></tr>
+              <tr><td>Missing link names</td><td>Screen reader users</td><td>Links lack meaning and context</td></tr>
+              <tr><td>Missing landmarks</td><td>Blind users</td><td>Navigation breaks; users get lost</td></tr>
+              <tr><td>Duplicate IDs</td><td>Assistive tech users</td><td>Page structure becomes ambiguous or unusable</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECOMMENDATIONS -->
+  <section id="fixes">
+    <div class="wrap">
+      <div class="section-head fade">
+        <span class="kicker">06 — High-Impact Fixes</span>
+        <h2>Four fixes prevent most violations</h2>
+        <p class="lead">
+          Based on violation types in the dataset, consistent implementation of these practices can prevent a large share of observed issues (best-case).
+        </p>
+      </div>
+
+      <div class="kpis fade">
+        <div class="kpi">
+          <div class="big">21.2%</div>
+          <div class="small">Color contrast</div>
+        </div>
+        <div class="kpi">
+          <div class="big">24.7%</div>
+          <div class="small">Semantic landmarks</div>
+        </div>
+        <div class="kpi">
+          <div class="big">12.0%</div>
+          <div class="small">Link + alt text</div>
+        </div>
+        <div class="kpi">
+          <div class="big">21.7%</div>
+          <div class="small">Structure + headings</div>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top:14px;">
+        <div class="card col-6 fade">
+          <h3>Fix color contrast</h3>
+          <p>Enforce WCAG contrast thresholds with automated checks in design tools and CI pipelines to prevent regressions before deployment.</p>
+        </div>
+        <div class="card col-6 fade">
+          <h3>Add semantic landmarks</h3>
+          <p>Standardize <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code> across templates to make screen reader navigation reliable.</p>
+        </div>
+        <div class="card col-6 fade">
+          <h3>Meaningful link text + alt text</h3>
+          <p>Replace vague links (“click here”) with descriptive labels, and ensure image-links include appropriate alt text for context.</p>
+        </div>
+        <div class="card col-6 fade">
+          <h3>Validate HTML structure</h3>
+          <p>Enforce unique IDs and a logical heading hierarchy using linting/testing to improve assistive-technology interpretation.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="cta col-12 fade">
+          <h2>Best-case impact</h2>
+          <p>
+            Addressing these four design practices could prevent nearly <b>80%</b> of observed violations (2,802 of 3,524),
+            assuming consistent implementation across templates and components.
+          </p>
+          <div class="btns" style="justify-content:center;">
+            <a class="btn primary" href="#links">Get the repo link</a>
+            <a class="btn" href="#findings">Back to visuals</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LINKS -->
+  <section id="links">
+    <div class="wrap">
+      <div class="section-head fade">
+        <span class="kicker">07 — Reproducibility</span>
+        <h2>Code & dashboard</h2>
+        <p class="lead">Everything is designed to be transparent and reusable.</p>
+      </div>
+
+      <div class="grid">
+        <div class="card col-6 fade">
+          <h3>GitHub repository</h3>
+          <p><a href="https://github.com/SunayanaHaz/Data4lyf.git" target="_blank" rel="noopener">https://github.com/SunayanaHaz/Data4lyf.git</a></p>
+        </div>
+        <div class="card col-6 fade">
+          <h3>Power BI dashboard</h3>
+          <p>Paste your Power BI share link here (optional) so judges can interact with slicers and KPIs.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card col-12 fade">
+          <h3>Limitations (credibility)</h3>
+          <p>
+            This analysis reflects observed violations from successfully scraped pages. Counts may be influenced by crawl depth and site structure.
+            Findings indicate patterns and relative risk—not a full accessibility audit of any individual organization.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px; text-align:center;">
+  <h2>Ready to Take Action?</h2>
+  <p>
+    Download the complete analysis, explore our code, and start implementing
+    these high-impact fixes today.
+  </p>
+
+  <div style="margin-top:16px;">
+    <a class="btn primary" href="Data4Lyf_Accessibility_Report.pdf" download>
+      Download Report
+    </a>
   </div>
 
-  <div class="tldr">
-    <div class="tldr-title">TL;DR for Judges</div>
-    <ul>
-      <li>News & Media shows the highest accessibility risk</li>
-      <li>Four design fixes prevent ~80% of violations</li>
-      <li>Risk Score prioritizes real user harm, not raw counts</li>
-    </ul>
-  </div>
+  <p class="caption" style="margin-top:10px;">
+    Includes full methodology, findings, and recommendations.
+  </p>
 </div>
+  </section>
 
-<section class="wrap">
-  <h2>Key Findings</h2>
+  <footer>
+    © Data4Lyf · DubsTech Datathon 2026 · Built on GitHub Pages
+  </footer>
 
-  <div class="grid">
-    <div class="card">
-      <img src="violations_by_domain.png">
-      <div class="caption">Violations by domain</div>
-    </div>
-    <div class="card">
-      <img src="top_violations.png">
-      <div class="caption">Most common accessibility violations</div>
-    </div>
-    <div class="card">
-      <img src="heatmap_domain_violation_category.png">
-      <div class="caption">Domain × violation category heatmap</div>
-    </div>
-  </div>
-</section>
+  <script>
+    // Show nav after scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) nav.classList.add('visible');
+      else nav.classList.remove('visible');
+    });
 
-<section class="wrap">
-  <h2>Severity-Weighted Risk Score</h2>
-  <div class="card">
-    <p>Not all violations are equal. Pages with fewer but more critical issues cause greater harm.</p>
-    <p><b>Risk Score:</b> 5×Critical · 4×Serious · 3×Moderate · 2×Minor</p>
-    <img src="risk_score_ranking.png">
-    <div class="caption">Pages ranked by estimated user harm</div>
-  </div>
-</section>
+    // Fade-in animation when sections enter view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
 
-<section class="wrap">
-  <h2>How Much Can Be Prevented?</h2>
-  <div class="kpis">
-    <div class="kpi"><div class="big">21.2%</div><div class="small">Color contrast</div></div>
-    <div class="kpi"><div class="big">24.7%</div><div class="small">Landmarks</div></div>
-    <div class="kpi"><div class="big">12.0%</div><div class="small">Link & alt text</div></div>
-    <div class="kpi"><div class="big">21.7%</div><div class="small">HTML structure</div></div>
-  </div>
-</section>
+    document.querySelectorAll('.fade').forEach(el => observer.observe(el));
 
-<section class="wrap">
-  <div class="cta">
-    <h2>Ready to Take Action?</h2>
-    <p>Download the complete analysis, explore our code, and start implementing these high-impact fixes today.</p>
-    <a href="Data4Lyf_Accessibility_Report.pdf" download>Download Report</a>
-  </div>
-</section>
-
-<footer>
-  © Data4Lyf · DubsTech Datathon 2026<br>
-  Aligned with WCAG 2.1 · Built with Python & Power BI · Fully reproducible
-</footer>
-
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        const target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
 </body>
 </html>
