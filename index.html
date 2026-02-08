@@ -4,107 +4,375 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Where Technology Fails | Data4Lyf</title>
+  <meta name="description" content="An accessibility analysis of real-world websites using the AccessGuru dataset." />
   <style>
-    :root { --blue:#1f4fd8; --text:#111827; --muted:#6b7280; --bg:#ffffff; --card:#f9fafb; --border:#e5e7eb; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:var(--bg); color:var(--text); }
-    .wrap { max-width: 980px; margin: 0 auto; padding: 42px 20px; }
-    .title { margin-bottom: 10px; }
-    h1 { font-size: 40px; margin: 0; letter-spacing: -0.02em; }
-    h2 { color: var(--blue); margin-top: 34px; }
-    .sub { color: var(--muted); margin: 8px 0 0; font-size: 18px; }
-    .meta { margin-top: 16px; color: var(--muted); }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; margin-top: 14px; }
-    ul { margin-top: 10px; }
-    .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-    @media (min-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
-    img { width: 100%; border-radius: 14px; border: 1px solid var(--border); margin-top: 10px; }
-    .caption { color: var(--muted); font-size: 14px; margin-top: 6px; }
-    a { color: var(--blue); }
+    :root{
+      --bg:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --blue:#1f4fd8;
+      --card:#f9fafb;
+      --border:#e5e7eb;
+      --shadow: 0 8px 30px rgba(0,0,0,.06);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height:1.65;
+    }
+    .wrap{max-width:1000px; margin:0 auto; padding:44px 18px 80px;}
+    .hero{margin-bottom:18px;}
+    h1{font-size:44px; margin:0; letter-spacing:-0.02em;}
+    .sub{font-size:18px; color:var(--muted); margin:10px 0 0;}
+    .meta{margin-top:14px; color:var(--muted);}
+    .badge{
+      display:inline-block; padding:4px 10px; border:1px solid var(--border);
+      border-radius:999px; margin-right:8px; background:#fff;
+      font-size:13px; color:#374151;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+      margin-top:14px;
+    }
+    @media (min-width: 920px){
+      .grid{grid-template-columns: 1fr 1fr;}
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:18px 18px;
+      box-shadow: var(--shadow);
+    }
+    h2{color:var(--blue); margin:0 0 8px; font-size:22px;}
+    h3{margin:14px 0 6px; font-size:16px;}
+    ul{margin:8px 0 0 18px;}
+    li{margin:4px 0;}
+    .caption{color:var(--muted); font-size:13px; margin-top:6px;}
+    img{
+      width:100%;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#fff;
+      margin-top:10px;
+    }
+    .kpiRow{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (min-width: 920px){
+      .kpiRow{grid-template-columns: repeat(4, 1fr);}
+    }
+    .kpi{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px 12px;
+    }
+    .kpi .big{font-size:22px; font-weight:800;}
+    .kpi .small{color:var(--muted); font-size:12px; margin-top:2px;}
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:#fff;
+      margin-top:10px;
+    }
+    th, td{
+      padding:10px 10px;
+      border-bottom:1px solid var(--border);
+      text-align:left;
+      font-size:14px;
+      vertical-align:top;
+    }
+    th{background:#f3f4f6; font-size:13px; color:#374151;}
+    tr:last-child td{border-bottom:none;}
+    code{
+      background:#eef2ff; padding:2px 6px; border-radius:8px;
+      border:1px solid #e0e7ff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.95em;
+    }
+    a{color:var(--blue); text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    .footer{margin-top:22px; color:var(--muted); font-size:13px;}
   </style>
 </head>
+
 <body>
   <div class="wrap">
-    <div class="title">
+    <div class="hero">
       <h1>Where Technology Fails</h1>
-      <p class="sub">An Accessibility Analysis of Real-World Websites</p>
-      <p class="meta"><b>Team:</b> Data4Lyf &nbsp; | &nbsp; <b>Datathon:</b> DubsTech Datathon 2026</p>
+      <p class="sub">An Accessibility Analysis of Real-World Websites (AccessGuru Dataset)</p>
+      <p class="meta">
+        <span class="badge"><b>Team</b>: Data4Lyf</span>
+        <span class="badge"><b>Track</b>: DubsTech Datathon 2026 — Technology</span>
+      </p>
+      <p class="meta">
+        <b>Team Members:</b> Sunayana Hazarika, JP Lai, Gaukhar Zharkeyeva, Jacob Edelson
+      </p>
     </div>
 
-    <div class="card">
-      <h2>Problem</h2>
-      <p>Many websites unintentionally block people with disabilities. These barriers are invisible to designers but very real for users who rely on screen readers, keyboard navigation, or have low vision.</p>
+    <div class="grid">
+      <div class="card">
+        <h2>Problem Statement</h2>
+        <p>
+          Technology is intended to be inclusive, yet many websites unintentionally exclude people with disabilities.
+          These barriers are often invisible to designers and developers but create significant challenges for users who rely
+          on screen readers, keyboard navigation, or who have low vision.
+        </p>
+        <p>
+          Using the AccessGuru dataset, we examined:
+        </p>
+        <ul>
+          <li>Where accessibility failures occur most frequently</li>
+          <li>Which types of violations dominate</li>
+          <li>Which pages create the greatest barriers for users</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Solution Statement</h2>
+        <p>
+          This analysis prioritizes <b>quality over complexity</b>, combining simple analytical techniques with
+          <b>clear insights</b>, <b>actionable outcomes</b>, and a focus on <b>real human impact</b>.
+          Rather than building complex models, we emphasize interpretability, severity-based prioritization, and practical recommendations.
+        </p>
+      </div>
     </div>
 
-    <div class="card">
-      <h2>Dataset</h2>
+    <div class="card" style="margin-top:14px;">
+      <h2>Dataset Overview</h2>
       <ul>
-        <li>3,524 accessibility violations</li>
-        <li>~591 unique web pages</li>
-        <li>Domains: News & Media, Government, Health, Education, Technology, E-commerce</li>
+        <li><b>3,524</b> accessibility violation records</li>
+        <li><b>~590</b> unique web pages</li>
+        <li><b>6 domains:</b> News &amp; Media, Government, Health, Education, Technology, E-commerce</li>
+        <li>Violations align with <b>WCAG 2.1</b> standards and include frequency and severity indicators</li>
       </ul>
+
+      <h3>Data Preparation</h3>
+      <ul>
+        <li>Standardized domain labels</li>
+        <li>Removed unsuccessfully scraped pages</li>
+        <li>Aggregated violations at page and domain levels</li>
+        <li>Verified consistency between severity score and impact label</li>
+      </ul>
+
+      <p class="caption"><b>Assumption:</b> The dataset reflects observed violations only; findings represent patterns in observed accessibility failures.</p>
     </div>
 
-    <div class="card">
+    <div class="card" style="margin-top:14px;">
       <h2>Key Findings</h2>
+
+      <h3>1) Which Domains Have the Highest Accessibility Violations?</h3>
+      <p>
+        Accessibility failures are unevenly distributed. <b>News &amp; Media</b> exhibits the highest concentration of violations,
+        followed by <b>Government</b> and <b>Technology</b>.
+      </p>
       <ul>
-        <li><b>Uneven distribution:</b> News & Media shows the highest volume of violations.</li>
-        <li><b>Repeat offenders:</b> Contrast, landmarks, link text, duplicate IDs, and headings dominate.</li>
-        <li><b>Impact &gt; volume:</b> Severity-weighted Risk Score highlights the most harmful pages.</li>
+        <li>Content-heavy sites introduce more accessibility risk</li>
+        <li>Publishing speed and volume may reduce accessibility checks</li>
       </ul>
+      <p class="caption"><b>Implication:</b> Accessibility risk increases with content volume and publishing speed, making governance especially critical for these domains.</p>
+      <img src="violations_by_domain.png" alt="Figure 1: Violations by Domain" />
+      <div class="caption"><b>Figure 1.</b> Where Technology Fails Most — Total accessibility violations by domain.</div>
+
+      <h3>2) What Violation Types Are Most Common?</h3>
+      <p>The most common violations across domains include:</p>
+      <ul>
+        <li>Color contrast issues</li>
+        <li>Missing or incorrect landmarks (region)</li>
+        <li>Missing link names</li>
+        <li>Duplicate HTML IDs</li>
+        <li>Heading structure problems</li>
+      </ul>
+      <p class="caption"><b>Implication:</b> These recurring violations suggest workflow and design-system gaps rather than technical complexity.</p>
+      <img src="top_violations.png" alt="Figure 2: Top Violations" />
+      <div class="caption"><b>Figure 2.</b> The Most Common Barriers to Digital Access — Top accessibility violations.</div>
+
+      <h3>3) Are There Patterns by Violation Category?</h3>
+      <p><b>Observed patterns:</b></p>
+      <ul>
+        <li><b>Syntactic</b> violations dominate across all domains</li>
+        <li><b>Semantic</b> violations are rarer but concentrated in <b>Education</b> and <b>Technology</b></li>
+        <li><b>Layout</b> issues appear consistently but at lower volume</li>
+      </ul>
+      <p class="caption"><b>Interpretation:</b> Most barriers arise from incorrect HTML structure and markup. While fewer in number, semantic violations disproportionately affect screen reader users.</p>
+      <img src="heatmap_domain_violation_category.png" alt="Figure 3: Heatmap - Domain x Violation Category" />
+      <div class="caption"><b>Figure 3.</b> Heatmap — Domain × Violation Category.</div>
     </div>
 
-    <div class="card">
-      <h2>Visual Findings</h2>
-      <div class="grid">
-        <div>
-          <img src="violations_by_domain.png" alt="Violations by Domain">
-          <div class="caption">Figure 1: Where Technology Fails Most — Total accessibility violations by domain.</div>
-        </div>
-        <div>
-          <img src="top_violation_types.png" alt="Top Violation Types">
-          <div class="caption">Figure 2: The Most Common Barriers — Top violation types across all domains.</div>
-        </div>
-      </div>
-      <div style="margin-top:14px;">
-        <img src="risk_score_pages.png" alt="Risk Score Ranking">
-        <div class="caption">Figure 3: Severity-Weighted Risk Score — Pages ranked by estimated user harm.</div>
-      </div>
-    </div>
+    <div class="card" style="margin-top:14px;">
+      <h2>Severity Matters More Than Volume: Risk Score</h2>
+      <p>
+        Not all violations are equal. Some pages contain fewer issues overall but include more <b>critical</b> violations,
+        creating significantly greater barriers for users. To capture this, we introduced a severity-weighted <b>Risk Score</b>.
+      </p>
 
-    <div class="card">
-      <h2>Risk Score</h2>
-      <p>We introduced a severity-weighted Risk Score to prioritize pages that cause the greatest harm:</p>
+      <h3>Risk Score Methodology</h3>
       <ul>
         <li>5 × Critical</li>
         <li>4 × Serious</li>
         <li>3 × Moderate</li>
         <li>2 × Minor</li>
       </ul>
-    </div>
 
-    <div class="card">
-      <h2>Recommendations</h2>
+      <p class="caption">
+        <b>Why this matters:</b> Unlike raw counts, the Risk Score reflects user harm and helps prioritize remediation where it will have the greatest accessibility impact.
+      </p>
+
+      <img src="risk_score_ranking.png" alt="Figure 4: Risk Score Ranking" />
+      <div class="caption"><b>Figure 4.</b> Severity-Weighted Risk Score Ranking — pages ranked by estimated user harm.</div>
+
+      <h3>Risk Score Insights</h3>
       <ul>
-        <li><b>Fix color contrast:</b> Enforce WCAG contrast thresholds with automated checks in design tools and CI.</li>
-        <li><b>Add semantic landmarks:</b> Standardize <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code> across templates.</li>
-        <li><b>Meaningful link text:</b> Replace generic links with descriptive labels; add alt text for image-links.</li>
-        <li><b>Validate structure:</b> Enforce unique IDs and heading hierarchy via linting/testing.</li>
+        <li>A small number of pages account for a large share of critical issues</li>
+        <li>High-risk pages often combine poor contrast, missing landmarks, and broken structure</li>
       </ul>
     </div>
 
-    <div class="card">
+    <div class="card" style="margin-top:14px;">
+      <h2>Hidden Patterns: Clustering</h2>
+      <p>
+        To identify recurring accessibility failure patterns beyond individual violations, we clustered pages based on the types and frequency of violations they contained.
+      </p>
+      <ul>
+        <li><b>Method:</b> KMeans clustering (k = 5) on page-level violation profiles</li>
+        <li><b>Scaling:</b> StandardScaler to prevent large counts from dominating similarity</li>
+        <li><b>Quality metric:</b> Silhouette score = 0.334 (moderate separation)</li>
+      </ul>
+      <p>
+        Five clusters emerged. Four represent distinct, recurring “problem families,” while one cluster contains low-violation or mixed-pattern outliers.
+      </p>
+
+      <h3>Problem Families</h3>
+      <ul>
+        <li><b>Contrast-Heavy Pages:</b> dominated by color contrast violations (harmful for low-vision users)</li>
+        <li><b>Navigation Confusion Pages:</b> missing landmarks/regions (screen reader users get lost)</li>
+        <li><b>Structure-Broken Pages:</b> duplicate IDs and broken HTML (assistive tech misinterprets structure)</li>
+        <li><b>Heading Disorder Pages:</b> incorrect heading order (users cannot skim or understand structure)</li>
+      </ul>
+      <p class="caption"><b>Implication:</b> These clusters enable targeted, repeatable fixes rather than addressing violations one-by-one.</p>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h2>Human Impact</h2>
+      <p>Accessibility failures disproportionately affect real people:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Violation Type</th>
+            <th>Who It Harms</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Color contrast</td>
+            <td>Low-vision users</td>
+            <td>Text becomes unreadable</td>
+          </tr>
+          <tr>
+            <td>Missing link names</td>
+            <td>Screen reader users</td>
+            <td>Links lack meaning / context</td>
+          </tr>
+          <tr>
+            <td>Missing landmarks</td>
+            <td>Blind users</td>
+            <td>Page navigation breaks</td>
+          </tr>
+          <tr>
+            <td>Duplicate IDs</td>
+            <td>Assistive technology users</td>
+            <td>Page structure collapses / becomes ambiguous</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="caption">These issues create invisible but significant barriers to access.</p>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h2>Recommendations (High-Impact Fixes)</h2>
+
+      <div class="kpiRow">
+        <div class="kpi">
+          <div class="big">~21.2%</div>
+          <div class="small"><b>Fix color contrast</b> (747 violations covered)</div>
+        </div>
+        <div class="kpi">
+          <div class="big">~24.7%</div>
+          <div class="small"><b>Add semantic landmarks</b> (869 violations covered)</div>
+        </div>
+        <div class="kpi">
+          <div class="big">~12.0%</div>
+          <div class="small"><b>Meaningful link text + alt text</b> (423 violations covered)</div>
+        </div>
+        <div class="kpi">
+          <div class="big">~21.7%</div>
+          <div class="small"><b>Validate HTML structure + headings</b> (763 violations covered)</div>
+        </div>
+      </div>
+
+      <h3>1) Fix color contrast</h3>
+      <p>Enforce WCAG contrast thresholds with automated checks in design tools and CI pipelines to prevent regressions before deployment.</p>
+
+      <h3>2) Add semantic landmarks</h3>
+      <p>Implement consistent semantic landmarks (<code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>) across templates to enable reliable navigation for screen reader users.</p>
+
+      <h3>3) Ensure meaningful link text</h3>
+      <p>Replace vague or generic link text with descriptive, action-oriented labels and ensure linked images include alt text to provide clear context for screen reader users.</p>
+
+      <h3>4) Validate HTML structure</h3>
+      <p>Enforce HTML validation standards to ensure unique element IDs and a logical heading hierarchy, improving interpretation by assistive technologies.</p>
+
+      <p class="caption">
+        <b>Best-case impact:</b> Addressing these four practices could prevent nearly <b>80%</b> of observed violations (2,802 of 3,524), assuming consistent implementation across templates and components.
+      </p>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
       <h2>Conclusion</h2>
-      <p>Accessibility failures are not random. They follow patterns, affect real people, and can be fixed with data-driven prioritization.</p>
+      <p>
+        Accessibility violations are not rare or random. They follow clear patterns, affect specific groups, and can be measured, prioritized, and fixed.
+        By combining data-driven analysis, severity-based ranking, and human-centered interpretation, this project shows exactly where to begin.
+      </p>
+      <p><b>Accessibility is not a niche compliance issue—it is a measurable design responsibility.</b></p>
     </div>
 
-    <div class="card">
-      <h2>Links</h2>
+    <div class="card" style="margin-top:14px;">
+      <h2>Limitations</h2>
+      <p>
+        This analysis reflects observed violations from successfully scraped pages. Counts may be influenced by page volume, crawl depth, and site structure.
+        Findings should be interpreted as patterns and relative risk indicators, not exhaustive audits of individual organizations.
+      </p>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h2>Reproducibility & Links</h2>
       <ul>
-        <li><a href="https://sunayanahaz.github.io/Dataforlife.github.io/">Code Repository</a></li>
-        <li><a href="YOUR_POWERBI_LINK_HERE">Power BI Dashboard</a> (optional)</li>
+        <li><b>Code repository:</b> <a href="https://github.com/SunayanaHaz/Data4lyf.git" target="_blank" rel="noopener">https://github.com/SunayanaHaz/Data4lyf.git</a></li>
+        <li><b>Power BI dashboard:</b> <span class="caption">Add your shared Power BI link here</span></li>
       </ul>
+      <p class="caption">Built with Python (pandas, visualization) and validated in Power BI.</p>
     </div>
 
+    <div class="footer">
+      © Data4Lyf — DubsTech Datathon 2026. Built on GitHub Pages.
+    </div>
   </div>
 </body>
 </html>
